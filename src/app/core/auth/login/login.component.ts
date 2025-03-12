@@ -1,21 +1,38 @@
-import { Component, signal, Signal, WritableSignal } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'chat-login',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export default class LoginComponent {
   errorMessage: WritableSignal<string> = signal('');
+  loginForm!: FormGroup;
 
-  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.getUrlData();
+    this.createLoginForm();
+  }
+
+  createLoginForm() {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      rememberMe: [false],
+    });
+  }
+
+  onSubmit() {
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value.email, this.loginForm.value.password);
+    }
   }
 
   signInWithGoogle() {
@@ -29,5 +46,12 @@ export default class LoginComponent {
         this.errorMessage.set(errorMessage);
       }
     });
+  }
+
+  get email() {
+    return this.loginForm.get('email');
+  }
+  get password() {
+    return this.loginForm.get('password');
   }
 }

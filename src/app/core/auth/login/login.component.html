@@ -1,3 +1,39 @@
-<p>login works!</p>
-<button (click)="signInWithGoogle()">Sign in with Google</button>
-<p>{{ errorMessage() }}</p>
+<section class="auth-section">
+  <article class="auth-section__header">
+    <img class="auth-section__logo" src="../../../../assets/belot.bg-logo.png" alt="" />
+  </article>
+  <article class="auth-section__content">
+    <article class="auth-section__form-container">
+      <form class="auth-section__form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <input class="auth-section__input" formControlName="email" placeholder="E-mail" />
+        <div class="auth-section__error-messages">
+          @if(email?.invalid && (email?.touched || email?.dirty)) { @if(email?.errors?.['required']){
+          <p class="auth-section__error-message">Имейл е задължително поле.</p>
+          } @if(email?.errors?.['email']){
+          <p class="auth-section__error-message">Имейлът трябва да е валиден.</p>
+          } }
+        </div>
+
+        <input class="auth-section__input" formControlName="password" type="password" placeholder="Password" />
+        <div class="auth-section__error-messages">
+          @if(password?.invalid && (password?.touched || password?.dirty)){ @if(password?.errors?.['required']){
+          <p class="auth-section__error-message">Паролата е задължително поле.</p>
+          } @if(password?.errors?.['minlength']){
+          <p class="auth-section__error-message">Паролата трябва да съдържа поне 6 символа.</p>
+          } }
+        </div>
+
+        <button class="auth-section__button auth-section__button--submit" type="submit" [disabled]="loginForm.invalid">Вход</button>
+      </form>
+    </article>
+    <a class="auth-section__forgot-password auth-section__forgot-password--small" href="/forgot-password">Забравена парола?</a>
+    <article class="auth-section__divider">
+      <p class="auth-section__divider-text">или</p>
+    </article>
+    <article class="auth-section__social-buttons">
+      <button class="auth-section__button auth-section__button--facebook" (click)="signInWithGoogle()">Влез с Facebook</button>
+      <button class="auth-section__button auth-section__button--google" (click)="signInWithGoogle()">Влез с Google</button>
+      <button class="auth-section__button auth-section__button--twitter" (click)="signInWithGoogle()">Влез с Twitter</button>
+    </article>
+  </article>
+</section>

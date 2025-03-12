@@ -20,7 +20,9 @@ body {
 }
 
 .content-max-width {
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
-  max-width: 1600px;
+  max-width: 1900px;
   height: 100%;
 }
