@@ -1,0 +1,11 @@
+<p>Започни нов чат</p>
+<form #myForm="ngForm">
+  <label for="users">Избери потребител:</label>
+  <select id="users" name="users" [(ngModel)]="selectedUser" (change)="onSelectUser()">
+    @for(option of options(); track $index){
+    <option [value]="option.value">
+      {{ option.label }}
+    </option>
+    }
+  </select>
+</form>
