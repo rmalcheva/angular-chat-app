@@ -1,0 +1,26 @@
+.chat-item {
+  display: flex;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: -1px -1px 7px -3px #000000;
+  margin: 1rem;
+
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &__profile-pic {
+  }
+
+  &__content {
+    margin-left: 1rem;
+  }
+}
+
+.chat-item:hover {
+  transform: scale(0.9);
+}
+
+.clicked {
+  transform: scale(0.9);
+  background-color: lightgray;
+}

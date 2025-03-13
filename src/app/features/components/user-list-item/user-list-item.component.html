@@ -1,0 +1,8 @@
+<section class="chat-item" [class.clicked]="(currentlyOpenedChat$ | async)?.id === chat()?.userData?.id">
+  <img class="chat-item__profile-pic" [src]="chat()?.userData?.profilePic" alt="" referrerPolicy="no-referrer" />
+  <article class="chat-item__content">
+    <p class="chat-item__name">{{ chat()?.userData?.name }}</p>
+    <p class="chat-item__last-message">{{ chat()?.lastMessage }}</p>
+    <p class="chat-item__timestamp">{{ chat()?.lastMessageTimestamp | timeAgo }}</p>
+  </article>
+</section>

@@ -1,8 +1,4 @@
-interface User {
-  email: string;
-  name: string;
-  profilePic: string;
-}
+import { User } from './user';
 
 export interface UserData {
   token: string;
