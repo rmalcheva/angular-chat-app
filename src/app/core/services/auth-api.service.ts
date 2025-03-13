@@ -17,7 +17,7 @@ export class AuthApiService {
   }
 
   logout(): Observable<{ message: string }> {
-    const url = `${environment.apiUrl}/logout`;
+    const url = `${environment.apiUrl}/auth/logout`;
     return this.http.post<{ message: string }>(url, {});
   }
 }

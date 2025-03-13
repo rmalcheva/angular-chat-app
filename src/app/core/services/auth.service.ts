@@ -6,12 +6,24 @@ import { Router } from '@angular/router';
 import { RoutesPaths } from '../../shared/models/routes';
 import { StorageService } from '../../shared/services/storage.service';
 import { LocalStorageKey } from '../../shared/models/local-storage-key';
+import { User } from '../../shared/models/user';
+import { SocketService } from '../../features/services/socket.service';
+import { Subject } from 'rxjs';
+// import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private authApiService: AuthApiService, private router: Router, private storageService: StorageService) {}
+  private logoutSubject = new Subject<void>();
+  logout$ = this.logoutSubject.asObservable();
+
+  constructor(
+    private authApiService: AuthApiService,
+    // private toastr: ToastrService,
+    private router: Router,
+    private storageService: StorageService
+  ) {}
 
   login(email: string, password: string): void {
     const userData: LoginRequest = { email, password };
@@ -20,8 +32,7 @@ export class AuthService {
         this.setUserSession(response, RoutesPaths.CHAT);
       },
       error: (error) => {
-        //display dialog
-        console.log(error);
+        // this.toastr.error('Грешка при логване');
       },
     });
   }
@@ -32,8 +43,7 @@ export class AuthService {
         this.clearSession();
       },
       error: (error) => {
-        //show dialog
-        console.error('Logout failed:', error);
+        // this.toastr.error('Грешка при логаут');
       },
     });
   }
@@ -48,8 +58,13 @@ export class AuthService {
     return token;
   }
 
+  getUserData(): User | null {
+    const userData = this.storageService.get(LocalStorageKey.USER);
+    return userData ? JSON.parse(userData) : null;
+  }
+
   saveUserData(response: UserData): void {
-    this.storageService.set(LocalStorageKey.AUTH_TOKEN, JSON.stringify(response.token));
+    this.storageService.set(LocalStorageKey.AUTH_TOKEN, response.token);
     this.storageService.set(LocalStorageKey.USER, JSON.stringify(response.user));
   }
 
@@ -60,6 +75,7 @@ export class AuthService {
 
   clearSession() {
     this.storageService.clear();
+    this.logoutSubject.next();
     this.router.navigateByUrl(RoutesPaths.LOGIN);
   }
 }

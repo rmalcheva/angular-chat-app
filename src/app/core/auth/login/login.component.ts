@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+// import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'chat-login',
@@ -14,7 +15,12 @@ export default class LoginComponent {
   errorMessage: WritableSignal<string> = signal('');
   loginForm!: FormGroup;
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private route: ActivatedRoute,
+    //  private toastr: ToastrService,
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.getUrlData();
@@ -43,7 +49,7 @@ export default class LoginComponent {
     this.route.queryParams.subscribe((params) => {
       const errorMessage: string = params['message'];
       if (errorMessage) {
-        this.errorMessage.set(errorMessage);
+        // this.toastr.error(errorMessage);
       }
     });
   }

@@ -1,0 +1,30 @@
+:host {
+  width: 100%;
+}
+
+.chat {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+
+  &__container {
+    display: flex;
+    height: 100%;
+  }
+  &__user-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 97vh;
+  }
+
+  &__open-chat {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 97vh;
+  }
+
+  &__logout-button {
+    align-self: flex-end;
+    cursor: pointer;
+  }
+}

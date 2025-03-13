@@ -1,0 +1,10 @@
+@for(message of messages(); track message._id){
+<chat-message [message]="message"></chat-message>
+}@empty{
+<p>Не е отворен чат</p>
+} @if(messages().length !== 0){
+<div class="message-input">
+  <input [(ngModel)]="newMessage" placeholder="Напиши ново съобщение..." />
+  <button (click)="sendMessage()" [disabled]="isSendButtonDisabled()">Send</button>
+</div>
+}

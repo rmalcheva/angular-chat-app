@@ -1,0 +1,5 @@
+@for(chat of chats(); track chat?.userData?.id){
+<chat-user-list-item [chat]="chat"></chat-user-list-item>
+}@empty {
+<p>Няма започнати чатове все още</p>
+}
