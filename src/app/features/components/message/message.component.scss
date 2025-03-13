@@ -1,0 +1,13 @@
+.align-right {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.message {
+  margin-bottom: 1rem;
+  &__content {
+  }
+  &__balloon {
+    display: flex;
+  }
+}
