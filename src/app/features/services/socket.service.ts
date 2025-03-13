@@ -23,7 +23,6 @@ export class SocketService {
         userId: user?.id,
       },
     });
-
     this.socket.on('newMessage', (message) => {
       this.openedConversationStateService.addNewMessage(message);
     });

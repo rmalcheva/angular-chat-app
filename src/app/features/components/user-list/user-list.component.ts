@@ -42,15 +42,15 @@ export class UserListComponent implements OnInit {
       .getLastSendMessage()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (lastMessage: Message) => {
+        next: (lastMessage: Message | null) => {
           this.updateChatLastMsg(lastMessage);
         },
       });
   }
 
-  updateChatLastMsg(lastMessage: Message) {
+  updateChatLastMsg(lastMessage: Message | null) {
     const chatWithLastMsg = this.findWhichChatHasReceivedLastMessage(lastMessage);
-    if (chatWithLastMsg) {
+    if (chatWithLastMsg && lastMessage) {
       this.chats.set(
         this.chats().map((chat: UserChat) => {
           return chat.userData.id === chatWithLastMsg.userData.id ? { ...chat, lastMessage: lastMessage.message } : chat;
@@ -59,7 +59,10 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  findWhichChatHasReceivedLastMessage(message: Message) {
-    return this.chats().find((chat) => chat.userData.id === message.senderId.id || chat.userData.id === message.receiverId);
+  findWhichChatHasReceivedLastMessage(message: Message | null) {
+    if (message) {
+      return this.chats().find((chat) => chat.userData.id === message.senderId.id || chat.userData.id === message.receiverId);
+    }
+    return null;
   }
 }

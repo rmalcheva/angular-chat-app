@@ -11,29 +11,30 @@ export class OpenedConversationStateService {
   currentlyOpenedChatSubject = new BehaviorSubject<User | null>(null);
   currentlyOpenedChat$ = this.currentlyOpenedChatSubject.asObservable();
 
-  lastSentMessageSubject = new Subject<Message>();
+  lastSentMessageSubject = new Subject<Message | null>();
   lastSentMessage$ = this.lastSentMessageSubject.asObservable();
 
-  chatMessagesSubject = new BehaviorSubject<Message[]>([]);
+  chatMessagesSubject = new BehaviorSubject<Message[] | null>([]);
   chatMessages$ = this.chatMessagesSubject.asObservable();
 
-  setCurrentlyOpenedChat(user: User): void {
+  setCurrentlyOpenedChat(user: User | null): void {
     this.currentlyOpenedChatSubject.next(user);
+    console.log('setCurrentlyOpenedChat', user);
   }
 
   getCurrentlyOpenedChat() {
     return this.currentlyOpenedChat$;
   }
 
-  sendLastSentMessage(message: Message) {
+  sendLastSentMessage(message: Message | null) {
     this.lastSentMessageSubject.next(message);
   }
 
-  getLastSendMessage(): Observable<Message> {
+  getLastSendMessage(): Observable<Message | null> {
     return this.lastSentMessage$;
   }
 
-  sendChatMessages(messages: Message[]) {
+  sendChatMessages(messages: Message[] | null) {
     this.chatMessagesSubject.next(messages);
   }
 

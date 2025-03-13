@@ -14,15 +14,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './open-conversation.component.scss',
 })
 export class OpenConversationComponent implements OnInit {
-  messages: WritableSignal<Message[]> = signal([]);
+  messages: WritableSignal<Message[] | null> = signal([]);
   newMessage: string = '';
   userIdChat: string = '';
   constructor(
     private openedConversationStateService: OpenedConversationStateService,
     private messagesApiService: MessagesApiService,
-    private destroyRef: DestroyRef
-  ) // private toastr: ToastrService
-  {}
+    private destroyRef: DestroyRef // private toastr: ToastrService
+  ) {}
   ngOnInit(): void {
     this.getChatMessages();
     this.getOpenedChat();
@@ -33,7 +32,7 @@ export class OpenConversationComponent implements OnInit {
       .getChatMessages()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (messages: Message[]) => this.messages.set(messages),
+        next: (messages: Message[] | null) => this.messages.set(messages),
       });
   }
 

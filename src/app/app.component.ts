@@ -9,6 +9,6 @@ import { SocketService } from './features/services/socket.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  constructor(private socketService: SocketService) {}
+  constructor() {}
   title = 'chat-app';
 }

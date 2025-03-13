@@ -9,6 +9,7 @@ import { LocalStorageKey } from '../../shared/models/local-storage-key';
 import { User } from '../../shared/models/user';
 import { SocketService } from '../../features/services/socket.service';
 import { Subject } from 'rxjs';
+import { OpenedConversationStateService } from '../../features/services/opened-conversation-state.service';
 // import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -22,7 +23,8 @@ export class AuthService {
     private authApiService: AuthApiService,
     // private toastr: ToastrService,
     private router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private openedConversationStateService: OpenedConversationStateService
   ) {}
 
   login(email: string, password: string): void {
@@ -77,5 +79,8 @@ export class AuthService {
     this.storageService.clear();
     this.logoutSubject.next();
     this.router.navigateByUrl(RoutesPaths.LOGIN);
+    this.openedConversationStateService.sendLastSentMessage(null);
+    this.openedConversationStateService.sendChatMessages([]);
+    this.openedConversationStateService.setCurrentlyOpenedChat(null);
   }
 }
