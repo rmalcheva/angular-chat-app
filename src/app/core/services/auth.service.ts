@@ -7,30 +7,31 @@ import { RoutesPaths } from '../../shared/models/routes';
 import { StorageService } from '../../shared/services/storage.service';
 import { LocalStorageKey } from '../../shared/models/local-storage-key';
 import { User } from '../../shared/models/user';
-import { SocketService } from '../../features/services/socket.service';
 import { Subject } from 'rxjs';
 import { OpenedConversationStateService } from '../../features/services/opened-conversation-state.service';
+import { SocketService } from '../../features/services/socket.service';
 // import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private logoutSubject = new Subject<void>();
-  logout$ = this.logoutSubject.asObservable();
-
   constructor(
     private authApiService: AuthApiService,
     // private toastr: ToastrService,
     private router: Router,
     private storageService: StorageService,
-    private openedConversationStateService: OpenedConversationStateService
+    private openedConversationStateService: OpenedConversationStateService,
+    private socket: SocketService
   ) {}
 
   login(email: string, password: string): void {
     const userData: LoginRequest = { email, password };
     this.authApiService.login(userData).subscribe({
       next: (response: UserData) => {
+        if (!this.socket.isSocketAlreadyInitialized()) {
+          this.socket.initializeSocket(response.user.id);
+        }
         this.setUserSession(response, RoutesPaths.CHAT);
       },
       error: (error) => {
@@ -42,6 +43,7 @@ export class AuthService {
   logout(): void {
     this.authApiService.logout().subscribe({
       next: () => {
+        this.socket.disconnect();
         this.clearSession();
       },
       error: (error) => {
@@ -77,10 +79,9 @@ export class AuthService {
 
   clearSession() {
     this.storageService.clear();
-    this.logoutSubject.next();
-    this.router.navigateByUrl(RoutesPaths.LOGIN);
     this.openedConversationStateService.sendLastSentMessage(null);
     this.openedConversationStateService.sendChatMessages([]);
     this.openedConversationStateService.setCurrentlyOpenedChat(null);
+    this.router.navigateByUrl(RoutesPaths.LOGIN);
   }
 }

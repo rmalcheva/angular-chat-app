@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Message } from '../../shared/models/message';
-import { UserChat } from '../../shared/models/user-chat';
-import { UserData } from '../../shared/models/user-data';
 import { User } from '../../shared/models/user';
+import { SocketService } from './socket.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,9 +16,10 @@ export class OpenedConversationStateService {
   chatMessagesSubject = new BehaviorSubject<Message[] | null>([]);
   chatMessages$ = this.chatMessagesSubject.asObservable();
 
+  constructor(private socket: SocketService) {}
+
   setCurrentlyOpenedChat(user: User | null): void {
     this.currentlyOpenedChatSubject.next(user);
-    console.log('setCurrentlyOpenedChat', user);
   }
 
   getCurrentlyOpenedChat() {
@@ -44,6 +44,12 @@ export class OpenedConversationStateService {
 
   sendErrorChatMessages(error: any) {
     this.chatMessagesSubject.error(error);
+  }
+
+  listenSocketForNewMessage() {
+    this.socket.on('newMessage', (message) => {
+      this.addNewMessage(message);
+    });
   }
 
   addNewMessage(message: Message) {
