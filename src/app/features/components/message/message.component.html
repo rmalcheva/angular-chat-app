@@ -1,10 +1,11 @@
 <section class="message">
-  <article class="message__balloon" [ngClass]="{ 'align-right': displayOnRight() }">
+  <article class="message__content" [ngClass]="{ 'align-right': displayOnRight() }">
     <img class="message__profile-pic" [src]="messageSender()?.profilePic" alt="" referrerPolicy="no-referrer" />
-    <article class="message__content">
-      <p class="message__username">{{ messageSender()?.name }}</p>
-      <p class="message__text">{{ message()?.message }}</p>
-      <p class="message__timestamp">{{ message()?.createdAt | timeAgo }}</p>
+    <article class="message__tooltip-container">
+      <article class="message__tooltip-content" [ngClass]="displayOnRight() ? 'align-right-tooltip' : 'align-left-tooltip'">
+        <p class="message__text">{{ message()?.message }}</p>
+        <p class="message__timestamp">{{ message()?.createdAt | timeAgo }}</p>
+      </article>
     </article>
   </article>
 </section>

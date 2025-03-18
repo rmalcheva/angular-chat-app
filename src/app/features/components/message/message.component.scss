@@ -1,13 +1,70 @@
+@use "../../../../styles/styles.scss" as *;
+
 .align-right {
   display: flex;
   flex-direction: row-reverse;
 }
 
+.align-right-tooltip {
+  margin-right: 15px;
+  background-color: $light-background-color;
+}
+
+.align-right-tooltip::after {
+  right: -15px;
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+  background-color: $light-background-color;
+}
+
+.align-left-tooltip {
+  margin-left: 15px;
+  background-color: $dark-background-color;
+  color: white;
+}
+
+.align-left-tooltip::after {
+  left: -15px;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+  background-color: $dark-background-color;
+  color: white;
+}
+
 .message {
   margin-bottom: 1rem;
-  &__content {
+
+  &__text {
+    @include msg-text($light-text-color);
   }
-  &__balloon {
+
+  &__timestamp {
+    @include time-ago-text($light-text-color);
+  }
+
+  &__content {
     display: flex;
+    align-items: center;
+    margin: 2rem;
+  }
+  &__profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  &__tooltip-container {
+  }
+  &__tooltip-content {
+    position: relative;
+    border-radius: 30px;
+    padding: 1.5rem;
+    max-width: 200px;
+    word-wrap: break-word;
+  }
+  &__tooltip-content::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
   }
 }

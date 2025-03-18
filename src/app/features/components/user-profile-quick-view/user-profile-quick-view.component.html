@@ -1,0 +1,5 @@
+<section class="user-profile">
+  <img class="user-profile__image" [src]="user()?.profilePic" alt="" referrerPolicy="no-referrer" />
+  <p class="user-profile__name">{{ user()?.name }}</p>
+  <button class="user-profile__logout-button" (click)="logout()">Изход</button>
+</section>

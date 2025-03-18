@@ -1,10 +1,14 @@
-@for(message of messages(); track message._id){
-<chat-message [message]="message"></chat-message>
-}@empty{
-<p>Не е отворен чат</p>
-} @if(messages()?.length !== 0){
-<div class="message-input">
-  <input [(ngModel)]="newMessage" placeholder="Напиши ново съобщение..." />
-  <button (click)="sendMessage()" [disabled]="isSendButtonDisabled()">Send</button>
-</div>
+<article class="chat__messages" #chatMessagesContainer>
+  @for(message of messages(); track message._id){
+  <chat-message [message]="message"></chat-message>
+  } @empty{
+  <p class="chat__empty">Няма отворен чат</p>
+  }
+</article>
+
+@if(messages()?.length !== 0){
+<section class="chat__write-message">
+  <textarea class="chat__textarea" [(ngModel)]="newMessage" placeholder="Напиши ново съобщение..."></textarea>
+  <button class="chat__input-button" (click)="sendMessage()" [disabled]="isSendButtonDisabled()">Send</button>
+</section>
 }

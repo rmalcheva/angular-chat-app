@@ -1,26 +1,47 @@
+@use "../../../../styles/styles.scss" as *;
+
 .chat-item {
   display: flex;
   padding: 1rem;
-  border-radius: 8px;
-  box-shadow: -1px -1px 7px -3px #000000;
-  margin: 1rem;
+  border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
 
   cursor: pointer;
   transition: transform 0.2s ease;
 
   &__profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0 4px 30px $box-shadow-color;
   }
 
   &__content {
     margin-left: 1rem;
+    color: white;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  &__name {
+    @include heading-text($light-text-color);
+  }
+  &__last-message {
+    @include msg-text($light-text-color);
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  &__timestamp {
+    @include time-ago-text($light-text-color);
   }
 }
 
 .chat-item:hover {
-  transform: scale(0.9);
+  background-color: rgb(255 255 255 / 12%);
+  margin: 0;
 }
 
 .clicked {
-  transform: scale(0.9);
-  background-color: lightgray;
+  margin: 0;
+  background-color: rgb(255 255 255 / 12%);
 }

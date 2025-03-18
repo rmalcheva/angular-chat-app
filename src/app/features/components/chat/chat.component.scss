@@ -1,3 +1,5 @@
+@use "../../../../styles/styles.scss" as *;
+
 :host {
   width: 100%;
 }
@@ -6,21 +8,45 @@
   display: flex;
   height: 100%;
   flex-direction: column;
-
+  background-image: url("../../../../assets/2150499049.jpg");
+  background-size: cover;
+  background-position: center;
   &__container {
     display: flex;
     height: 100%;
+    width: 100%;
   }
   &__user-list {
-    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    flex-basis: 30%;
+    max-width: 30%;
     overflow-y: auto;
     max-height: 97vh;
+    background-color: $dark-background-color;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid $light-border-color;
+    box-shadow: 0 4px 30px $box-shadow-color;
+    margin: 6rem 0 4rem 4rem;
+    border-radius: 5px 0 0 5px;
   }
 
   &__open-chat {
-    flex-grow: 1;
-    overflow-y: auto;
+    flex-basis: 70%;
+    // overflow-y: auto;
     max-height: 97vh;
+
+    background: $light-background-color;
+    box-shadow: 2px 3px 20px $box-shadow-color;
+    backdrop-filter: blur(13px);
+    -webkit-backdrop-filter: blur(13px);
+    border: 1px solid $light-background-color;
+    border-bottom: none;
+    border-left: none;
+    border-radius: 1px;
+
+    margin: 6rem 4rem 4rem 0;
   }
 
   &__logout-button {

@@ -1,6 +1,7 @@
 <section class="chat">
   <section class="chat__container">
     <article class="chat__user-list">
+      <chat-user-profile-quick-view [user]="user"></chat-user-profile-quick-view>
       <chat-user-list></chat-user-list>
       <!-- <chat-start-new-chat></chat-start-new-chat> -->
     </article>
@@ -8,5 +9,4 @@
       <chat-open-conversation></chat-open-conversation>
     </article>
   </section>
-  <button class="chat__logout-button" (click)="logout()">Изход</button>
 </section>

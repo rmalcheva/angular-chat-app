@@ -1,0 +1,33 @@
+@use "./variables" as *;
+
+@mixin gradient-btn($gradient-color, $light-text-color) {
+  border-radius: 5px;
+  border: none;
+  background-image: $gradient-color;
+  color: $light-text-color;
+  padding: 10px 25px;
+  cursor: pointer;
+  text-transform: uppercase;
+  background-size: 200% auto;
+  transition: 0.5s;
+  box-shadow: 3px 3px 20px -7px #eee;
+  margin: 1rem;
+}
+
+@mixin heading-text($textColor) {
+  font-family: $secondary-font;
+  font-size: $lg-font-size;
+  color: $textColor;
+}
+
+@mixin msg-text($textColor) {
+  font-family: $primary-font;
+  font-size: $md-font-size;
+  color: $textColor;
+}
+
+@mixin time-ago-text($textColor) {
+  font-family: $primary-font;
+  font-size: $sm-font-size;
+  font-weight: 300;
+}

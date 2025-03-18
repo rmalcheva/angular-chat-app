@@ -1,0 +1,42 @@
+@use "../../../../styles/styles.scss" as *;
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat {
+  &__messages {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    height: 100%;
+  }
+
+  &__empty {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include heading-text(#000);
+  }
+
+  &__write-message {
+    display: flex;
+    background-color: #0d131e;
+    align-items: center;
+  }
+
+  &__textarea {
+    flex-grow: 1;
+    background-color: $textarea-color;
+    border: none;
+    padding: 1rem;
+    @include msg-text($light-text-color);
+  }
+
+  &__input-button {
+    @include gradient-btn($gradient-color, $light-text-color);
+    height: fit-content;
+  }
+}

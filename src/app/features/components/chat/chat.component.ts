@@ -4,14 +4,17 @@ import { OpenConversationComponent } from '../open-conversation/open-conversatio
 import { AuthService } from '../../../core/services/auth.service';
 import { SocketService } from '../../services/socket.service';
 import { OpenedConversationStateService } from '../../services/opened-conversation-state.service';
+import { UserProfileQuickViewComponent } from '../user-profile-quick-view/user-profile-quick-view.component';
+import { User } from '../../../shared/models/user';
 
 @Component({
   selector: 'chat-container',
-  imports: [UserListComponent, OpenConversationComponent],
+  imports: [UserListComponent, OpenConversationComponent, UserProfileQuickViewComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
 export default class ChatComponent implements OnInit {
+  user!: User;
   constructor(
     private authService: AuthService,
     private socket: SocketService,
@@ -20,13 +23,10 @@ export default class ChatComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.user = this.authService.getUserData()!;
     if (!this.socket.isSocketAlreadyInitialized()) {
-      this.socket.initializeSocket(this.authService.getUserData()!.id);
+      this.socket.initializeSocket(this.user!.id);
     }
     this.openedConversationStateService.listenSocketForNewMessage();
-  }
-
-  logout() {
-    this.authService.logout();
   }
 }

@@ -1,4 +1,15 @@
-import { Component, DestroyRef, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  signal,
+  ViewChild,
+  WritableSignal,
+} from '@angular/core';
 import { OpenedConversationStateService } from '../../services/opened-conversation-state.service';
 import { Message } from '../../../shared/models/message';
 import { MessageComponent } from '../message/message.component';
@@ -14,12 +25,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './open-conversation.component.scss',
 })
 export class OpenConversationComponent implements OnInit {
+  @ViewChild('chatMessagesContainer') chatMessagesContainer!: ElementRef;
   messages: WritableSignal<Message[] | null> = signal([]);
   newMessage: string = '';
   userIdChat: string = '';
   constructor(
     private openedConversationStateService: OpenedConversationStateService,
     private messagesApiService: MessagesApiService,
+    private renderer: Renderer2,
     private destroyRef: DestroyRef // private toastr: ToastrService
   ) {}
   ngOnInit(): void {
@@ -49,10 +62,14 @@ export class OpenConversationComponent implements OnInit {
 
   sendMessage() {
     this.messagesApiService.sendMessageToUser(this.userIdChat, this.newMessage.trim()).subscribe({
-      next: () => null,
+      next: () => this.scrollToBottomOfChat(),
       // error: () => this.toastr.error('Съобщението не може да се изпрати'),
     });
     this.newMessage = '';
+  }
+
+  scrollToBottomOfChat() {
+    this.renderer.setProperty(this.chatMessagesContainer.nativeElement, 'scrollTop', this.chatMessagesContainer.nativeElement.scrollHeight);
   }
 
   isSendButtonDisabled() {
