@@ -7,13 +7,13 @@
 
 .align-right-tooltip {
   margin-right: 15px;
-  background-color: $light-background-color;
+  background-color: $light-bubble-color;
 }
 
 .align-right-tooltip::after {
   right: -15px;
   clip-path: polygon(100% 50%, 0 0, 0 100%);
-  background-color: $light-background-color;
+  background-color: $light-bubble-color;
 }
 
 .align-left-tooltip {

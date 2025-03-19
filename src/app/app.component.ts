@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -7,7 +8,14 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  constructor() {}
-  title = 'chat-app';
+export class AppComponent implements OnInit {
+  constructor(private titleService: Title) {}
+
+  ngOnInit(): void {
+    this.setTitle('RadChat!');
+  }
+
+  setTitle(newTitle: string) {
+    this.titleService.setTitle(newTitle);
+  }
 }
